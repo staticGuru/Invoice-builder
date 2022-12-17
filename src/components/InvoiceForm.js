@@ -35,7 +35,7 @@ class InvoiceForm extends React.Component {
     this.state.items = [
       {
         id: Math.random(),
-        name: 'dds',
+        name: '',
         description: '',
         price: '1.00',
         quantity: 1,
@@ -56,8 +56,8 @@ class InvoiceForm extends React.Component {
     var items = {
       id: id,
       name: '',
-      price: '1.00',
       description: '',
+      price: '1.00',
       quantity: 1,
     };
     this.state.items.push(items);
@@ -66,13 +66,12 @@ class InvoiceForm extends React.Component {
   handleCalculateTotal() {
     var items = this.state.items;
     var subTotal = 0;
-
-    items.map(function (items) {
-      subTotal = parseFloat(
-        subTotal + parseFloat(items.price).toFixed(2) * parseInt(items.quantity)
-      ).toFixed(2);
-    });
-
+  
+    for(let item of items){
+    
+      subTotal =
+        subTotal + (parseFloat(item.price).toFixed(2) * parseInt(item.quantity))
+    }
     this.setState(
       {
         subTotal: parseFloat(subTotal).toFixed(2),
@@ -100,6 +99,8 @@ class InvoiceForm extends React.Component {
                 });
               }
             );
+          },()=>{
+            console.log("statevalue",this.state);
           }
         );
       }
@@ -112,6 +113,7 @@ class InvoiceForm extends React.Component {
       value: evt.target.value,
     };
     var items = this.state.items.slice();
+  
     var newItems = items.map(function (items) {
       for (var key in items) {
         if (key == item.name && items.id == item.id) {
@@ -120,9 +122,7 @@ class InvoiceForm extends React.Component {
       }
       return items;
     });
-    this.setState({ items: newItems },()=>{
-      console.log("itemss",this.state.items)
-    });
+    this.setState({ items: newItems });
     this.handleCalculateTotal();
   }
   editField = (event) => {
