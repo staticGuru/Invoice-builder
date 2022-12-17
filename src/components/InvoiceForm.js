@@ -34,8 +34,8 @@ class InvoiceForm extends React.Component {
     };
     this.state.items = [
       {
-        id: 0,
-        name: '',
+        id: Math.random(),
+        name: 'dds',
         description: '',
         price: '1.00',
         quantity: 1,
@@ -52,7 +52,7 @@ class InvoiceForm extends React.Component {
     this.setState(this.state.items);
   }
   handleAddEvent(evt) {
-    var id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
+    var id = Math.random();
     var items = {
       id: id,
       name: '',
@@ -120,7 +120,9 @@ class InvoiceForm extends React.Component {
       }
       return items;
     });
-    this.setState({ items: newItems });
+    this.setState({ items: newItems },()=>{
+      console.log("itemss",this.state.items)
+    });
     this.handleCalculateTotal();
   }
   editField = (event) => {
