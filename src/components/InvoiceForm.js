@@ -99,9 +99,6 @@ class InvoiceForm extends React.Component {
                 });
               }
             );
-          },
-          () => {
-            console.log("statevalue", this.state);
           }
         );
       }
@@ -305,7 +302,7 @@ class InvoiceForm extends React.Component {
                     <span className="fw-bold">Total:</span>
                     <span className="fw-bold">
                       {this.state.currency}
-                      {this.state.total || 0}
+                      {parseFloat(this.state.total).toFixed(2) || 0}
                     </span>
                   </div>
                 </Col>
