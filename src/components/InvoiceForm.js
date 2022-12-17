@@ -132,8 +132,38 @@ class InvoiceForm extends React.Component {
   onCurrencyChange = (selectedOption) => {
     this.setState(selectedOption);
   };
+  async sendMail() {
+    const msg = {
+      name: 'test email',
+      email: 'guruvignesh.m@ewallsolutions.com',
+      subject: 'Sending with SendGrid is Fun',
+      text: 'and easy to do anywhere, even with Node.js'
+    };
+    console.log('sendMail');
+    await fetch('http://localhost:5000/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json','Access-Control-Allow-Origin':'http://localhost:3000','Access-Control-Allow-Credentials':'true' },
+      body: JSON.stringify(msg)
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("data",data)
+        alert(data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // try{
+    //   sgMail.send(msg).then(res=>console.log("res,",res)).catch(err => {
+    //     console.log(err);
+    //   });
+    // }catch(err){
+    //   console.log(err)
+    // }
+  }
   openModal = (event) => {
     event.preventDefault();
+
     this.handleCalculateTotal();
     this.setState({ isOpen: true });
   };
@@ -148,7 +178,7 @@ class InvoiceForm extends React.Component {
                 <div class="d-flex flex-column">
                   <div className="d-flex flex-column">
                     <div class="mb-2">
-                      <span className="fw-bold">Current&nbsp;Date:&nbsp;</span>
+                      <span className="fw-bold" onClick={()=>this.sendMail()}>Current&nbsp;Date:&nbsp;</span>
                       <span className="current-date">
                         {new Date().toLocaleDateString()}
                       </span>
