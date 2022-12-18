@@ -8,36 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import { BiPaperPlane, BiCloudDownload } from 'react-icons/bi';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-// const sgMail = require('@sendgrid/mail');
-// sgMail.setApiKey("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");
-// function sendMail() {
-//   const msg = {
-//     name: 'test email',
-//     email: 'guruvignesh.274m@gmail.com',
-//     subject: 'Sending with SendGrid is Fun',
-//     text: 'and easy to do anywhere, even with Node.js'
-//   };
-//   console.log('sendMail');
-//   // fetch('http://localhost:5000/send', {
-//   //   method: 'POST',
-//   //   headers: { 'Content-Type': 'application/json','Access-Control-Allow-Origin':'http://localhost:3000','Access-Control-Allow-Credentials':'true' },
-//   //   body: JSON.stringify(msg)
-//   // })
-//   //   .then((res) =>console.log(res.json()))
-//   //   .then((data) => {
-//   //     console.log(data);
-//   //   })
-//   //   .catch((err) => {
-//   //     console.log(err);
-//   //   });
-//   // try{
-//   //   sgMail.send(msg).then(res=>console.log("res,",res)).catch(err => {
-//   //     console.log(err);
-//   //   });
-//   // }catch(err){
-//   //   console.log(err)
-//   // }
-// }
+
 function GenerateInvoice() {
   html2canvas(document.querySelector('#invoiceCapture')).then((canvas) => {
     const imgData = canvas.toDataURL('image/png', 1.0);
