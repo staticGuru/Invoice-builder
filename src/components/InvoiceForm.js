@@ -1,45 +1,46 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Card from "react-bootstrap/Card";
-import InvoiceItem from "./InvoiceItem";
-import InvoiceModal from "./InvoiceModal";
-import InputGroup from "react-bootstrap/InputGroup";
-
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import InvoiceItem from './InvoiceItem';
+import InvoiceModal from './InvoiceModal';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Lottie from 'react-lottie';
+import animationData from '../assests/invoice.json'
 class InvoiceForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isOpen: false,
-      currency: "$",
-      currentDate: "",
+      currency: '$',
+      currentDate: '',
       invoiceNumber: 1,
-      dateOfIssue: "",
-      billTo: "",
-      billToEmail: "",
-      billToAddress: "",
-      billFrom: "",
-      billFromEmail: "",
-      billFromAddress: "",
-      notes: "",
-      total: "0.00",
-      subTotal: "0.00",
-      taxRate: "",
-      taxAmmount: "0.00",
-      discountRate: "",
-      discountAmmount: "0.00",
+      dateOfIssue: '',
+      billTo: '',
+      billToEmail: '',
+      billToAddress: '',
+      billFrom: '',
+      billFromEmail: '',
+      billFromAddress: '',
+      notes: '',
+      total: '0.00',
+      subTotal: '0.00',
+      taxRate: '',
+      taxAmmount: '0.00',
+      discountRate: '',
+      discountAmmount: '0.00'
     };
     this.state.items = [
       {
         id: Math.random(),
-        name: "",
-        description: "",
-        price: "1.00",
-        quantity: 1,
-      },
+        name: '',
+        description: '',
+        price: '1.00',
+        quantity: 1
+      }
     ];
     this.editField = this.editField.bind(this);
   }
@@ -49,7 +50,7 @@ class InvoiceForm extends React.Component {
   handleRowDel(items) {
     var index = this.state.items.indexOf(items);
     this.state.items.splice(index, 1);
-    this.setState(this.state.items,()=>{
+    this.setState(this.state.items, () => {
       this.handleCalculateTotal();
     });
   }
@@ -57,10 +58,10 @@ class InvoiceForm extends React.Component {
     var id = Math.random();
     var items = {
       id: id,
-      name: "",
-      description: "",
-      price: "1.00",
-      quantity: 1,
+      name: '',
+      description: '',
+      price: '1.00',
+      quantity: 1
     };
     this.state.items.push(items);
     this.setState(this.state.items);
@@ -69,33 +70,27 @@ class InvoiceForm extends React.Component {
     var items = this.state.items;
     var subTotal = 0;
     for (let item of items) {
-      subTotal =
-        subTotal + parseFloat(item.price).toFixed(2) * parseInt(item.quantity);
+      subTotal = subTotal + parseFloat(item.price).toFixed(2) * parseInt(item.quantity);
     }
     this.setState(
       {
-        subTotal: parseFloat(subTotal).toFixed(2),
+        subTotal: parseFloat(subTotal).toFixed(2)
       },
       () => {
         this.setState(
           {
-            taxAmmount: parseFloat(
-              parseFloat(subTotal) * (this.state.taxRate / 100)
-            ).toFixed(2),
+            taxAmmount: parseFloat(parseFloat(subTotal) * (this.state.taxRate / 100)).toFixed(2)
           },
           () => {
             this.setState(
               {
                 discountAmmount: parseFloat(
                   parseFloat(subTotal) * (this.state.discountRate / 100)
-                ).toFixed(2),
+                ).toFixed(2)
               },
               () => {
                 this.setState({
-                  total:
-                    subTotal -
-                    this.state.discountAmmount +
-                    parseFloat(this.state.taxAmmount),
+                  total: subTotal - this.state.discountAmmount + parseFloat(this.state.taxAmmount)
                 });
               }
             );
@@ -108,7 +103,7 @@ class InvoiceForm extends React.Component {
     var item = {
       id: evt.target.id,
       name: evt.target.name,
-      value: evt.target.value,
+      value: evt.target.value
     };
     var items = this.state.items.slice();
 
@@ -125,7 +120,7 @@ class InvoiceForm extends React.Component {
   }
   editField = (event) => {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     });
     this.handleCalculateTotal();
   };
@@ -168,7 +163,16 @@ class InvoiceForm extends React.Component {
     this.setState({ isOpen: true });
   };
   closeModal = (event) => this.setState({ isOpen: false });
+
   render() {
+    const defaultOptions = {
+      loop: true,
+      autoplay: true,
+      animationData: animationData,
+      rendererSettings: {
+        preserveAspectRatio: 'xMidYMid slice'
+      }
+    };
     return (
       <Form onSubmit={this.openModal}>
         <Row>
@@ -179,9 +183,7 @@ class InvoiceForm extends React.Component {
                   <div className="d-flex flex-column">
                     <div class="mb-2">
                       <span className="fw-bold">Current&nbsp;Date:&nbsp;</span>
-                      <span className="current-date">
-                        {new Date().toLocaleDateString()}
-                      </span>
+                      <span className="current-date">{new Date().toLocaleDateString()}</span>
                     </div>
                   </div>
                   <div className="d-flex flex-row align-items-center">
@@ -189,27 +191,25 @@ class InvoiceForm extends React.Component {
                     <Form.Control
                       type="date"
                       value={this.state.dateOfIssue}
-                      name={"dateOfIssue"}
+                      name={'dateOfIssue'}
                       onChange={(event) => this.editField(event)}
                       style={{
-                        maxWidth: "150px",
+                        maxWidth: '150px'
                       }}
                       required="required"
                     />
                   </div>
                 </div>
                 <div className="d-flex flex-row align-items-center">
-                  <span className="fw-bold me-2">
-                    Invoice&nbsp;Number:&nbsp;
-                  </span>
+                  <span className="fw-bold me-2">Invoice&nbsp;Number:&nbsp;</span>
                   <Form.Control
                     type="number"
                     value={this.state.invoiceNumber}
-                    name={"invoiceNumber"}
+                    name={'invoiceNumber'}
                     onChange={(event) => this.editField(event)}
                     min="1"
                     style={{
-                      maxWidth: "70px",
+                      maxWidth: '70px'
                     }}
                     required="required"
                   />
@@ -220,7 +220,7 @@ class InvoiceForm extends React.Component {
                 <Col>
                   <Form.Label className="fw-bold">Bill to:</Form.Label>
                   <Form.Control
-                    placeholder={"Who is this invoice to?"}
+                    placeholder={'Who is this invoice to?'}
                     rows={3}
                     value={this.state.billTo}
                     type="text"
@@ -231,7 +231,7 @@ class InvoiceForm extends React.Component {
                     required="required"
                   />
                   <Form.Control
-                    placeholder={"Email address"}
+                    placeholder={'Email address'}
                     value={this.state.billToEmail}
                     type="email"
                     name="billToEmail"
@@ -241,7 +241,7 @@ class InvoiceForm extends React.Component {
                     required="required"
                   />
                   <Form.Control
-                    placeholder={"Billing address"}
+                    placeholder={'Billing address'}
                     value={this.state.billToAddress}
                     type="text"
                     name="billToAddress"
@@ -254,7 +254,7 @@ class InvoiceForm extends React.Component {
                 <Col>
                   <Form.Label className="fw-bold">Bill from:</Form.Label>
                   <Form.Control
-                    placeholder={"Who is this invoice from?"}
+                    placeholder={'Who is this invoice from?'}
                     rows={3}
                     value={this.state.billFrom}
                     type="text"
@@ -265,7 +265,7 @@ class InvoiceForm extends React.Component {
                     required="required"
                   />
                   <Form.Control
-                    placeholder={"Email address"}
+                    placeholder={'Email address'}
                     value={this.state.billFromEmail}
                     type="email"
                     name="billFromEmail"
@@ -275,7 +275,7 @@ class InvoiceForm extends React.Component {
                     required="required"
                   />
                   <Form.Control
-                    placeholder={"Billing address"}
+                    placeholder={'Billing address'}
                     value={this.state.billFromAddress}
                     type="text"
                     name="billFromAddress"
@@ -305,9 +305,7 @@ class InvoiceForm extends React.Component {
                   <div className="d-flex flex-row align-items-start justify-content-between mt-2">
                     <span className="fw-bold">Discount:</span>
                     <span>
-                      <span className="small ">
-                        ({this.state.discountRate || 0}%)
-                      </span>
+                      <span className="small ">({this.state.discountRate || 0}%)</span>
                       {this.state.currency}
                       {this.state.discountAmmount || 0}
                     </span>
@@ -315,9 +313,7 @@ class InvoiceForm extends React.Component {
                   <div className="d-flex flex-row align-items-start justify-content-between mt-2">
                     <span className="fw-bold">Tax:</span>
                     <span>
-                      <span className="small ">
-                        ({this.state.taxRate || 0}%)
-                      </span>
+                      <span className="small ">({this.state.taxRate || 0}%)</span>
                       {this.state.currency}
                       {this.state.taxAmmount || 0}
                     </span>
@@ -326,9 +322,8 @@ class InvoiceForm extends React.Component {
                   <div
                     className="d-flex flex-row align-items-start justify-content-between"
                     style={{
-                      fontSize: "1.125rem",
-                    }}
-                  >
+                      fontSize: '1.125rem'
+                    }}>
                     <span className="fw-bold">Total:</span>
                     <span className="fw-bold">
                       {this.state.currency}
@@ -369,12 +364,9 @@ class InvoiceForm extends React.Component {
               <Form.Group className="mb-3">
                 <Form.Label className="fw-bold">Currency:</Form.Label>
                 <Form.Select
-                  onChange={(event) =>
-                    this.onCurrencyChange({ currency: event.target.value })
-                  }
+                  onChange={(event) => this.onCurrencyChange({ currency: event.target.value })}
                   className="btn btn-light my-1"
-                  aria-label="Change Currency"
-                >
+                  aria-label="Change Currency">
                   <option value="$">USD (United States Dollar)</option>
                   <option value="£">GBP (British Pound Sterling)</option>
                   <option value="¥">JPY (Japanese Yen)</option>
@@ -423,9 +415,10 @@ class InvoiceForm extends React.Component {
                   </InputGroup.Text>
                 </InputGroup>
               </Form.Group>
-              <div>Lottie animations</div>
+              <div>
+                <Lottie options={defaultOptions} height={400} width={'100%'} />
+              </div>
             </div>
-            
           </Col>
         </Row>
       </Form>
